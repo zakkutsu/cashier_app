@@ -31,13 +31,13 @@ if(isset ($_SESSION['username'])){
 <title>Entri Referensi</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="template/dashboard/css/bootstrap.min.css" />
-<link rel="stylesheet" href="template/dashboard/css/bootstrap-responsive.min.css" />
-<link rel="stylesheet" href="template/dashboard/css/fullcalendar.css" />
-<link rel="stylesheet" href="template/dashboard/css/matrix-style.css" />
-<link rel="stylesheet" href="template/dashboard/css/matrix-media.css" />
+<link rel="stylesheet" href="./template/dashboard/css/bootstrap.min.css" />
+<link rel="stylesheet" href="./template/dashboard/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="./template/dashboard/css/fullcalendar.css" />
+<link rel="stylesheet" href="./template/dashboard/css/matrix-style.css" />
+<link rel="stylesheet" href="./template/dashboard/css/matrix-media.css" />
 <link href="template/dashboard/font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link rel="stylesheet" href="template/dashboard/css/jquery.gritter.css" />
+<link rel="stylesheet" href="./template/dashboard/css/jquery.gritter.css" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -76,6 +76,7 @@ if(isset ($_SESSION['username'])){
     <li class="active"> <a href="entri_referensi.php"><i class="icon icon-tasks"></i> <span>Kelola Menu & Harga</span></a> </li>
     <!-- <li> <a href="entri_order.php"><i class="icon icon-shopping-cart"></i> <span>Entri Order</span></a> </li> -->
     <li> <a href="entri_transaksi.php"><i class="icon icon-inbox"></i> <span>Entri Transaksi</span></a> </li>
+    <!-- <li> <a href="entri_referensi.php"><i class="icon icon-inbox"></i> <span>Entri Referensi</span></a> </li> -->
     <li> <a href="generate_laporan.php"><i class="icon icon-print"></i> <span>Generate Laporan</span></a> </li>
     <li> <a href="logout.php"><i class="icon icon-sign-out"></i> <span>Logout</span></a> </li>
   <?php
@@ -214,9 +215,7 @@ if(isset ($_SESSION['username'])){
 
 <!--Footer-part-->
 
-<div class="row-fluid">
-  <div id="footer" class="span12"> <?php echo date('Y'); ?> &copy; Restaurant <a href="#">by henscorp</a> </div>
-</div>
+<?php include "footer.php"; ?>
 
 <!--end-Footer-part-->
 

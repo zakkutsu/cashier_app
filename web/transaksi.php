@@ -31,13 +31,13 @@ if(isset ($_SESSION['username'])){
 <title>Transaksi</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="template/dashboard/css/bootstrap.min.css" />
-<link rel="stylesheet" href="template/dashboard/css/bootstrap-responsive.min.css" />
-<link rel="stylesheet" href="template/dashboard/css/fullcalendar.css" />
-<link rel="stylesheet" href="template/dashboard/css/matrix-style.css" />
-<link rel="stylesheet" href="template/dashboard/css/matrix-media.css" />
+<link rel="stylesheet" href="./template/dashboard/css/bootstrap.min.css" />
+<link rel="stylesheet" href="./template/dashboard/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="./template/dashboard/css/fullcalendar.css" />
+<link rel="stylesheet" href="./template/dashboard/css/matrix-style.css" />
+<link rel="stylesheet" href="./template/dashboard/css/matrix-media.css" />
 <link href="template/dashboard/font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link rel="stylesheet" href="template/dashboard/css/jquery.gritter.css" />
+<link rel="stylesheet" href="./template/dashboard/css/jquery.gritter.css" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -69,7 +69,7 @@ if(isset ($_SESSION['username'])){
 <div id="sidebar"><a href="entri_referensi.php" class="visible-phone"><i class="icon icon-inbox"></i> <span>Entri Transaksi</span></a>
   <ul>
     <li> <a href="beranda.php"><i class="icon icon-home"></i> <span>Beranda</span></a> </li>
-    <li> <a href="entri_referensi.php"><i class="icon icon-tasks"></i> <span>Entri Referensi</span></a> </li>
+    <!-- <li> <a href="entri_referensi.php"><i class="icon icon-tasks"></i> <span>Entri Referensi</span></a> </li> -->
     <li> <a href="entri_order.php"><i class="icon icon-shopping-cart"></i> <span>Entri Order</span></a> </li>
     <li class="active"> <a href="entri_transaksi.php"><i class="icon icon-inbox"></i> <span>Entri Transaksi</span></a> </li>
     <li> <a href="widgets.html"><i class="icon icon-print"></i> <span>Generate Laporan</span></a> </li>
@@ -97,7 +97,7 @@ if(isset ($_SESSION['username'])){
   <div class="container-fluid">
     <div class="row-fluid">
     <?php
-      if($r['id_level'] == 1){
+      if($r['id_level'] == 1 || $r['id_level'] == 2){
         $id_order = $_SESSION['edit_order'];
         $query_pemesan = "select * from tb_order left join tb_user on tb_order.id_pengunjung = tb_user.id_user where id_order = $id_order";
         $sql_pemesan = mysqli_query($conn, $query_pemesan);
@@ -245,9 +245,7 @@ if(isset ($_SESSION['username'])){
 
 <!--Footer-part-->
 
-<div class="row-fluid">
-  <div id="footer" class="span12"> <?php echo date('Y'); ?> &copy; Restaurant <a href="#">by henscorp</a> </div>
-</div>
+<?php include "footer.php"; ?>
 
 <!--end-Footer-part-->
 

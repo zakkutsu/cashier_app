@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 10 Jan 2025 pada 02.39
+-- Waktu pembuatan: 13 Jan 2025 pada 03.47
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -65,15 +65,15 @@ INSERT INTO `tb_masakan` (`id_masakan`, `nama_masakan`, `harga`, `stok`, `status
 (22, 'Seblak Kerupuk', '10000', 50, 'tersedia', 'Seblak Kerupuk.jpeg'),
 (23, 'Seblak Jahanam', '15000', 47, 'tersedia', 'Seblak Jahanam.jpg'),
 (29, 'Seblak Mie Pedas', '20000', 50, 'tersedia', 'Seblak Mie Pedas.jpg'),
-(30, 'Seblak Komplit', '25000', 50, 'tersedia', 'Seblak Komplit.jpg'),
+(30, 'Seblak Komplit', '25000', 48, 'tersedia', 'Seblak Komplit.jpg'),
 (31, 'Seblak Kerupuk Pedas', '20000', 50, 'tersedia', 'Seblak Kerupuk Pedas.jpeg'),
 (32, 'Kerupuk', '1000', 100, 'tersedia', 'Kerupuk.png'),
 (33, 'Mie', '1000', 100, 'tersedia', 'Mie.png'),
 (34, 'Telur', '3000', 100, 'tersedia', 'Telur.png'),
 (35, 'Bakso', '4000', 100, 'tersedia', 'Bakso.png'),
 (36, 'Sosis', '2000', 100, 'tersedia', 'Sosis.png'),
-(37, 'Ayam', '4000', 100, 'tersedia', 'Ayam.png'),
-(38, 'Frozen Food', '2000', 100, 'tersedia', 'Frozen Food.png'),
+(37, 'Ayam', '4000', 98, 'tersedia', 'Ayam.png'),
+(38, 'Frozen Food', '2000', 97, 'tersedia', 'Frozen Food.png'),
 (40, 'Jamur Enoki', '3000', 100, 'tersedia', 'Jamur Enoki.png');
 
 -- --------------------------------------------------------
@@ -100,7 +100,7 @@ CREATE TABLE `tb_order` (
 
 INSERT INTO `tb_order` (`id_order`, `id_admin`, `id_pengunjung`, `waktu_pesan`, `no_meja`, `total_harga`, `uang_bayar`, `uang_kembali`, `status_order`) VALUES
 (27, 1, 6, '2025-01-09 08:40:40', 5, '45000', '50000', '5000', 'sudah bayar'),
-(28, 1, 1, '2025-01-09 08:43:39', 1, '30000', '50000', '20000', 'sudah bayar');
+(30, 6, 6, '2025-01-13 07:22:34', 2, '14000', '50000', '36000', 'sudah bayar');
 
 -- --------------------------------------------------------
 
@@ -124,7 +124,9 @@ CREATE TABLE `tb_pesan` (
 INSERT INTO `tb_pesan` (`id_pesan`, `id_user`, `id_order`, `id_masakan`, `jumlah`, `status_pesan`) VALUES
 (51, 1, 0, 19, 0, 'sudah'),
 (52, 1, 0, 18, 0, 'sudah'),
-(62, 6, 27, 23, 3, 'sudah');
+(62, 6, 27, 23, 3, 'sudah'),
+(66, 6, 30, 37, 2, 'sudah'),
+(67, 6, 30, 38, 3, 'sudah');
 
 -- --------------------------------------------------------
 
@@ -162,7 +164,10 @@ INSERT INTO `tb_stok` (`id_stok`, `id_pesan`, `jumlah_terjual`, `status_cetak`) 
 (16, 61, 2, 'belum cetak'),
 (17, 62, 3, 'belum cetak'),
 (18, 63, 0, 'belum cetak'),
-(19, 64, 0, 'belum cetak');
+(19, 64, 0, 'belum cetak'),
+(20, 65, 2, 'belum cetak'),
+(21, 66, 2, 'belum cetak'),
+(22, 67, 3, 'belum cetak');
 
 -- --------------------------------------------------------
 
@@ -255,19 +260,19 @@ ALTER TABLE `tb_masakan`
 -- AUTO_INCREMENT untuk tabel `tb_order`
 --
 ALTER TABLE `tb_order`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pesan`
 --
 ALTER TABLE `tb_pesan`
-  MODIFY `id_pesan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id_pesan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_stok`
 --
 ALTER TABLE `tb_stok`
-  MODIFY `id_stok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_stok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_user`

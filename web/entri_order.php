@@ -31,13 +31,13 @@ if(isset ($_SESSION['username'])){
 <title>Entri Order</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="template/dashboard/css/bootstrap.min.css" />
-<link rel="stylesheet" href="template/dashboard/css/bootstrap-responsive.min.css" />
-<link rel="stylesheet" href="template/dashboard/css/fullcalendar.css" />
-<link rel="stylesheet" href="template/dashboard/css/matrix-style.css" />
-<link rel="stylesheet" href="template/dashboard/css/matrix-media.css" />
+<link rel="stylesheet" href="./template/dashboard/css/bootstrap.min.css" />
+<link rel="stylesheet" href="./template/dashboard/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="./template/dashboard/css/fullcalendar.css" />
+<link rel="stylesheet" href="./template/dashboard/css/matrix-style.css" />
+<link rel="stylesheet" href="./template/dashboard/css/matrix-media.css" />
 <link href="template/dashboard/font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link rel="stylesheet" href="template/dashboard/css/jquery.gritter.css" />
+<link rel="stylesheet" href="./template/dashboard/css/jquery.gritter.css" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -268,8 +268,9 @@ if(isset ($_SESSION['username'])){
                             </tr>
                           </tbody>
                         </table>
-                        <form action="" method="post">
+                        <form action="entri_order.php" method="post">
                           <?php
+                        
                             if(in_array($r_dt_makanan['id_masakan'], $pesan)){
                           ?>
                               <button type="submit" value="<?php echo $r_dt_makanan['id_masakan'];?>" name="tambah_pesan" class="btn btn-danger btn-mini" disabled>
@@ -318,7 +319,7 @@ if(isset ($_SESSION['username'])){
         </div>
       </div>
       <div class="span4">
-      <form action="" method="post">
+      <form action="entri_order.php" method="post">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-shopping-cart"></i> </span>
             <h5>Keranjang Pemesanan</h5>
@@ -344,11 +345,12 @@ if(isset ($_SESSION['username'])){
                   <input id="<?php echo "harga".$r_draft_pesan['id_pesan']; ?>" class="span8" type="hidden" value="<?php echo $r_draft_pesan['harga'];?>"/>
                   <td>
                     <center>
-                      <input id="<?php echo "jumlah".$r_draft_pesan['id_pesan']; ?>" class="span8" name="jumlah<?php echo $r_draft_pesan['id_masakan']; ?>" type="number" value="" placeholder="" onchange="return operasi()"/>
+
+                      <input id="<?php echo "jumlah".$r_draft_pesan['id_pesan']; ?>" class="span8" name="jumlah<?php echo $r_draft_pesan['id_masakan']; ?>" type="number" value="<?php echo $r_draft_pesan['jumlah']; ?>" placeholder="" onchange="return operasi()"/>
                     </center>
                   </td>
                   <td>
-                    <form action="" method="post">
+                    <form action="entri_order.php" method="post">
                       <button type="submit" value="<?php echo $r_draft_pesan['id_pesan'];?>" name="hapus_pesan" class="btn btn-danger btn-mini">
                         <i class='icon-trash'></i>
                       </button>
@@ -407,52 +409,104 @@ if(isset ($_SESSION['username'])){
             }
           }
 
-          if(isset($_POST['proses_pesan'])){
-            $id_admin = '';
+          if (isset($_POST['proses_pesan'])) {
+            $id_admin = 0; // Adjust to get admin ID if needed
             $id_pengunjung = $id;
             $no_meja = $_POST['no_meja'];
             $total_harga = $_POST['total_harga'];
-            $uang_bayar = '';
-            $uang_kembali = '';
+            $uang_bayar = null; // These will be updated when payment is made
+            $uang_kembali = null;
             $status_order = 'belum bayar';
-
+        
             date_default_timezone_set('Asia/Jakarta');
             $time = Date('YmdHis');
-            echo $time;
-            $query_simpan_order = "insert into tb_order values(0, '$id_admin', '$id_pengunjung', $time, '$no_meja', '$total_harga', '$uang_bayar', '$uang_kembali', '$status_order')";
-            $sql_simpan_order = mysqli_query($conn, $query_simpan_order);
-
-            $query_tampil_order = "select * from tb_order where id_pengunjung = $id order by id_order desc limit 1";
-            $sql_tampil_order = mysqli_query($conn, $query_tampil_order);
-            $result_tampil_order = mysqli_fetch_array($sql_tampil_order);
-
-            $id_ordernya = $result_tampil_order['id_order'];
-
-            $query_ubah_jumlah = "select * from tb_pesan left join tb_masakan on tb_pesan.id_masakan = tb_masakan.id_masakan where id_user = $id and status_pesan != 'sudah'";
-            $sql_ubah_jumlah = mysqli_query($conn, $query_ubah_jumlah);
-            while($r_ubah_jumlah = mysqli_fetch_array($sql_ubah_jumlah)){
-              $tahu = $r_ubah_jumlah['id_masakan'];
-              $tempe = $_POST['jumlah'.$tahu];
-              $id_pesan = $r_ubah_jumlah['id_pesan'];
-              $query_stok = "select * from tb_masakan where id_masakan = $tahu";
-              $sql_stok = mysqli_query($conn, $query_stok);
-              $result_stok = mysqli_fetch_array($sql_stok);
-              $sisa_stok = $result_stok['stok'] - $tempe;
-              //echo $tempe;
-              $query_proses_ubah = "update tb_pesan set jumlah = $tempe, id_order = $id_ordernya where id_masakan = $tahu and id_user = $id and status_pesan != 'sudah'";
-              $query_kurangi_stok = "update tb_masakan set stok = $sisa_stok where id_masakan = $tahu";
-              
-              $query_kelola_stok = "update tb_stok set jumlah_terjual = $tempe where id_pesan = $id_pesan";
-
-              $sql_kelola_stok = mysqli_query($conn, $query_kelola_stok);
-              $sql_kurangi_stok = mysqli_query($conn, $query_kurangi_stok);
-              $sql_proses_ubah = mysqli_query($conn, $query_proses_ubah);
+        
+            // Start transaction to ensure atomicity
+        
+            try {
+                
+                // Insert order into `tb_order`
+                $query_simpan_order = "INSERT INTO tb_order VALUES (0, $id_admin, $id_pengunjung, $time, $no_meja, '$total_harga', '$uang_bayar', '$uang_kembali', '$status_order')";
+                echo $query_simpan_order;
+                $sql_simpan_order = mysqli_query($conn, $query_simpan_order);
+        
+                if (!$sql_simpan_order) {
+                    throw new Exception("Failed to save order: " . mysqli_error($conn));
+                }
+        
+                // Get the last inserted order
+                $query_tampil_order = "SELECT * FROM tb_order WHERE id_pengunjung = $id ORDER BY id_order DESC LIMIT 1";
+                $sql_tampil_order = mysqli_query($conn, $query_tampil_order);
+        
+                if (!$sql_tampil_order || mysqli_num_rows($sql_tampil_order) == 0) {
+                    throw new Exception("Failed to retrieve order: " . mysqli_error($conn));
+                }
+        
+                $result_tampil_order = mysqli_fetch_array($sql_tampil_order);
+                $id_ordernya = $result_tampil_order['id_order'];
+        
+                // Update `tb_pesan` and adjust stock in `tb_masakan`
+                $query_ubah_jumlah = "
+                    SELECT tb_pesan.*, tb_masakan.stok 
+                    FROM tb_pesan 
+                    LEFT JOIN tb_masakan ON tb_pesan.id_masakan = tb_masakan.id_masakan 
+                    WHERE id_user = $id AND status_pesan != 'sudah'";
+                $sql_ubah_jumlah = mysqli_query($conn, $query_ubah_jumlah);
+        
+                if (!$sql_ubah_jumlah) {
+                    throw new Exception("Failed to fetch orders: " . mysqli_error($conn));
+                }
+        
+                while ($r_ubah_jumlah = mysqli_fetch_array($sql_ubah_jumlah)) {
+                    $id_masakan = $r_ubah_jumlah['id_masakan'];
+                    $tempe = $_POST['jumlah' . $id_masakan];
+                    $id_pesan = $r_ubah_jumlah['id_pesan'];
+        
+                    $stok_awal = $r_ubah_jumlah['stok'];
+                    $sisa_stok = $stok_awal - $tempe;
+        
+                    // Update `tb_pesan` to associate with order
+                    $query_proses_ubah = "UPDATE tb_pesan SET jumlah = $tempe, id_order = $id_ordernya WHERE id_pesan = $id_pesan";
+                    $sql_proses_ubah = mysqli_query($conn, $query_proses_ubah);
+        
+                    if (!$sql_proses_ubah) {
+                        throw new Exception("Failed to update tb_pesan: " . mysqli_error($conn));
+                    }
+        
+                    // Update `tb_masakan` stock
+                    $query_kurangi_stok = "UPDATE tb_masakan SET stok = $sisa_stok WHERE id_masakan = $id_masakan";
+                    $sql_kurangi_stok = mysqli_query($conn, $query_kurangi_stok);
+        
+                    if (!$sql_kurangi_stok) {
+                        throw new Exception("Failed to update tb_masakan stock: " . mysqli_error($conn));
+                    }
+        
+                    // Update `tb_stok` (optional based on your requirements)
+                    $query_kelola_stok = "UPDATE tb_stok SET jumlah_terjual = $tempe WHERE id_pesan = $id_pesan";
+                    $sql_kelola_stok = mysqli_query($conn, $query_kelola_stok);
+        
+                    if (!$sql_kelola_stok) {
+                        throw new Exception("Failed to update tb_stok: " . mysqli_error($conn));
+                    }
+                }
+        
+                // Clear `tb_pesan` for this user
+                $query_clear_pesan = "DELETE FROM tb_pesan WHERE id_user = $id AND status_pesan != 'sudah'";
+                $sql_clear_pesan = mysqli_query($conn, $query_clear_pesan);
+        
+                if (!$sql_clear_pesan) {
+                    throw new Exception("Failed to clear tb_pesan: " . mysqli_error($conn));
+                }
+        
+                // Commit transaction
+                header('Location: entri_order.php');
+            } catch (Exception $e) {
+                // Rollback transaction in case of error
+                mysqli_rollback($conn);
+                echo "Error: " . $e->getMessage();
             }
-
-            if($sql_simpan_order){
-              header('location: entri_order.php');
-            }
-          }
+        }
+        
 
         }
       ?>
@@ -465,13 +519,14 @@ if(isset ($_SESSION['username'])){
 
 <!--Footer-part-->
 
-<div class="row-fluid">
-  <div id="footer" class="span12"> <?php echo date('Y'); ?> &copy; Restaurant <a href="#">by henscorp</a> </div>
-</div>
-
+<?php include "footer.php"; ?>
 <!--end-Footer-part-->
 
 <script type="text/javascript">
+
+    // creaet onload operasi is called
+    window.onload = operasi;
+
   function operasi(){
     var pesan = new Array();
     var jumlah = new Array();

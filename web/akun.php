@@ -51,13 +51,13 @@ if(isset ($_SESSION['username'])){
 <title>Beranda</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="template/dashboard/css/bootstrap.min.css" />
-<link rel="stylesheet" href="template/dashboard/css/bootstrap-responsive.min.css" />
-<link rel="stylesheet" href="template/dashboard/css/fullcalendar.css" />
-<link rel="stylesheet" href="template/dashboard/css/matrix-style.css" />
-<link rel="stylesheet" href="template/dashboard/css/matrix-media.css" />
+<link rel="stylesheet" href="./template/dashboard/css/bootstrap.min.css" />
+<link rel="stylesheet" href="./template/dashboard/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="./template/dashboard/css/fullcalendar.css" />
+<link rel="stylesheet" href="./template/dashboard/css/matrix-style.css" />
+<link rel="stylesheet" href="./template/dashboard/css/matrix-media.css" />
 <link href="template/dashboard/font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link rel="stylesheet" href="template/dashboard/css/jquery.gritter.css" />
+<link rel="stylesheet" href="./template/dashboard/css/jquery.gritter.css" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -135,7 +135,7 @@ if(isset ($_SESSION['username'])){
 <div id="content">
 <!--breadcrumbs-->
   <div id="content-header">
-    <div id="breadcrumb"> <a href="beranda.php" title="Go to Home" class="tip-bottom"><i class="icon-user"></i> Kelola Akun</a></div>
+    <div id="breadcrumb"> <a href="akun.php" title="Go to Home" class="tip-bottom"><i class="icon-user"></i> Kelola Akun</a></div>
   </div>
 <!--End-breadcrumbs-->
   
@@ -225,6 +225,68 @@ if(isset ($_SESSION['username'])){
                   </table>
                 </div>
               </div> -->
+              <!--DATA ADMIN-->
+              <div class="widget-box">
+                <?php
+                  $query_data_adm = "select * from tb_user where id_level = 1";
+                  $sql_data_adm = mysqli_query($conn, $query_data_adm);
+                  $no_adm = 1;
+                ?>
+
+                <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+                  <h5>Data Kasir</h5>
+                </div>
+                <div class="widget-content nopadding">
+                  <table class="table table-bordered table-striped " style="width: 100%">
+                    <thead>
+                      <tr>
+                        <th style="width:5%">No.</th>
+                        <th style="width:25%">Nama</th>
+                        <th style="width:30%">Username</th>
+                        <th style="width:20%">Status</th>
+                        <th style="width:20%">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                        while($r_dt_adm = mysqli_fetch_array($sql_data_adm)){
+                      ?>
+                        <tr class="odd gradeX">
+                          <td><center><?php echo $no_adm++; ?>.</center></td>
+                          <td><?php echo $r_dt_adm['nama_user']; ?></td>
+                          <td><?php echo $r_dt_adm['username']; ?></td>
+                          <td><?php echo $r_dt_adm['status']; ?></td>
+                          <td>
+                            <form action="" method="post">
+                            <?php 
+                              if($r_dt_adm['status'] == 'aktif'){
+                            ?>
+                                <button name="unvalidasi" value="<?php echo $r_dt_adm['id_user']; ?>" class="btn btn-warning btn-mini">
+                                  <i class='icon icon-user'></i> Nonaktifkan
+                                </button>
+                            <?php 
+                              }
+                            ?>
+
+                            <?php 
+                              if($r_dt_adm['status'] == 'nonaktif'){
+                            ?>
+                                <button name="validasi" value="<?php echo $r_dt_adm['id_user']; ?>" class="btn btn-info btn-mini"><i class='icon icon-ok'></i></button>
+                                <button name="hapus_user" value="<?php echo $r_dt_adm['id_user']; ?>" class="btn btn-danger btn-mini"><i class='icon icon-trash'></i></button>
+                            <?php 
+                              }
+                            ?>
+                            </form>
+                          </td>
+                        </tr>
+                      <?php
+                        }
+                      ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
               <!--DATA KASIR-->
               <div class="widget-box">
                 <?php
@@ -262,7 +324,7 @@ if(isset ($_SESSION['username'])){
                               if($r_dt_ksr['status'] == 'aktif'){
                             ?>
                                 <button name="unvalidasi" value="<?php echo $r_dt_ksr['id_user']; ?>" class="btn btn-warning btn-mini">
-                                  <i class='icon icon-remove'></i>
+                                  <i class='icon icon-user'></i> Nonaktifkan
                                 </button>
                             <?php 
                               }
@@ -324,7 +386,7 @@ if(isset ($_SESSION['username'])){
                               if($r_dt_own['status'] == 'aktif'){
                             ?>
                                 <button name="unvalidasi" value="<?php echo $r_dt_own['id_user']; ?>" class="btn btn-warning btn-mini">
-                                  <i class='icon icon-remove'></i>
+                                  <i class='icon icon-user'></i> Nonaktifkan 
                                 </button>
                             <?php 
                               }
@@ -468,13 +530,7 @@ if(isset ($_SESSION['username'])){
 
 <!--end-main-container-part-->
 
-<!--Footer-part-->
-
-<div class="row-fluid">
-  <div id="footer" class="span12"> <?php echo date('Y'); ?> &copy; Restaurant <a href="#">by henscorp</a> </div>
-</div>
-
-<!--end-Footer-part-->
+<?php include "footer.php"; ?>
 
 <script src="template/dashboard/js/excanvas.min.js"></script> 
 <script src="template/dashboard/js/jquery.min.js"></script> 

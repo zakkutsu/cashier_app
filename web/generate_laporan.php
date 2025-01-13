@@ -33,13 +33,13 @@ if(isset ($_SESSION['username'])){
 <title>Entri Transaksi</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="template/dashboard/css/bootstrap.min.css" />
-<link rel="stylesheet" href="template/dashboard/css/bootstrap-responsive.min.css" />
-<link rel="stylesheet" href="template/dashboard/css/fullcalendar.css" />
-<link rel="stylesheet" href="template/dashboard/css/matrix-style.css" />
-<link rel="stylesheet" href="template/dashboard/css/matrix-media.css" />
+<link rel="stylesheet" href="./template/dashboard/css/bootstrap.min.css" />
+<link rel="stylesheet" href="./template/dashboard/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="./template/dashboard/css/fullcalendar.css" />
+<link rel="stylesheet" href="./template/dashboard/css/matrix-style.css" />
+<link rel="stylesheet" href="./template/dashboard/css/matrix-media.css" />
 <link href="template/dashboard/font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link rel="stylesheet" href="template/dashboard/css/jquery.gritter.css" />
+<link rel="stylesheet" href="./template/dashboard/css/jquery.gritter.css" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -125,9 +125,12 @@ if(isset ($_SESSION['username'])){
     <?php
       if($r['id_level'] == 1 || $r['id_level'] == 2 || $r['id_level'] == 3 || $r['id_level'] == 4){
     ?>
-
     <div class="row-fluid">
       <div class="span9">
+        <center><a target='_blank' href="cetak_laporan.php?konten=<?php echo $r_sudah_order['id_order'];?>" class="btn btn-mini btn-success">
+           <i class='icon icon-print'></i>
+           &nbsp; Cetak Laporan
+         </a></center> 
         <div class="widget-box">
           <div class="widget-title bg_lg"><span class="icon"><i class="icon-th-large"></i></span>
             <h5>Laporan Hari Ini</h5>
@@ -236,9 +239,7 @@ if(isset ($_SESSION['username'])){
 
 <!--Footer-part-->
 
-<div class="row-fluid">
-  <div id="footer" class="span12"> <?php echo date('Y'); ?> &copy; Restaurant <a href="#">by henscorp</a> </div>
-</div>
+<?php include "footer.php"; ?>
 
 <!--end-Footer-part-->
 

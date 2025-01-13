@@ -9,14 +9,14 @@
 <title>Daftar</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="template/dashboard/css/bootstrap.min.css" />
-<link rel="stylesheet" href="template/dashboard/css/bootstrap-responsive.min.css" />
-<link rel="stylesheet" href="template/dashboard/css/colorpicker.css" />
-<link rel="stylesheet" href="template/dashboard/css/datepicker.css" />
-<link rel="stylesheet" href="template/dashboard/css/uniform.css" />
-<link rel="stylesheet" href="template/dashboard/css/select2.css" />
-<link rel="stylesheet" href="template/dashboard/css/matrix-style.css" />
-<link rel="stylesheet" href="template/dashboard/css/matrix-media.css" />
+<link rel="stylesheet" href="./template/dashboard/css/bootstrap.min.css" />
+<link rel="stylesheet" href="./template/dashboard/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="./template/dashboard/css/colorpicker.css" />
+<link rel="stylesheet" href="./template/dashboard/css/datepicker.css" />
+<link rel="stylesheet" href="./template/dashboard/css/uniform.css" />
+<link rel="stylesheet" href="./template/dashboard/css/select2.css" />
+<link rel="stylesheet" href="./template/dashboard/css/matrix-style.css" />
+<link rel="stylesheet" href="./template/dashboard/css/matrix-media.css" />
 <link rel="stylesheet" href="css/bootstrap-wysihtml5.css" />
 <link href="template/dashboard/font-awesome/css/font-awesome.css" rel="stylesheet" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
@@ -93,7 +93,7 @@
               <div class="controls">
                 <select class="span11" name="id_level">
                   <!--<option value="1">Administrator</option>-->
-                  <option value="2">Waiter</option>
+                  <!-- <option value="2">Waiter</option> -->
                   <option value="3">Kasir</option>
                   <option value="4">Owner</option>
                   <option value="5">Pelanggan</option>
@@ -129,9 +129,7 @@
 </div>
 </div>
 <!--Footer-part-->
-<div class="row-fluid">
-  <div id="footer" class="span12"> <?php echo date('Y'); ?> &copy; Restaurant <a href="#">by henscorp</a> </div>
-</div>
+<?php include "footer.php"; ?>
 <!--end-Footer-part--> 
 <script src="template/dashboard/js/jquery.min.js"></script> 
 <script src="template/dashboard/js/jquery.ui.custom.js"></script> 
