@@ -1,0 +1,87 @@
+CARA INSTALL POS SEBLAK v1.0
+===============================
+
+SYSTEM REQUIREMENTS:
+- Windows 10/11 (64-bit recommended)
+- RAM minimum 4GB
+- Disk space: 500MB
+- Internet connection (untuk download Docker)
+
+LANGKAH INSTALASI:
+==================
+
+1. EXTRACT FILE
+   - Extract file zip ini ke folder pilihan Anda
+   - Contoh: C:\POS-Seblak\
+   - Pastikan semua file ter-extract dengan lengkap
+
+2. INSTALL DOCKER DESKTOP
+   - Download dari: https://www.docker.com/products/docker-desktop
+   - Install dengan setting default
+   - Restart komputer setelah install
+   - Pastikan Docker Desktop running (icon di system tray)
+
+3. SETUP DATABASE
+   - Klik 2x file "setup-database.bat"
+   - Tunggu proses download MySQL (pertama kali agak lama)
+   - Tunggu sampai muncul "DATABASE SETUP COMPLETED SUCCESSFULLY!"
+   - Jangan tutup window sampai selesai
+
+4. JALANKAN APLIKASI
+   - Klik 2x file "POS Seblak.exe"
+   - Tunggu aplikasi loading
+   - Akan muncul window login
+
+5. LOGIN
+   Gunakan salah satu akun berikut:
+   - Admin: username=admin, password=123
+   - Kasir: username=hendro, password=123
+   - Owner: username=lia, password=123
+
+TROUBLESHOOTING:
+================
+
+❌ Error "Docker not found"
+✅ Install Docker Desktop terlebih dahulu
+
+❌ Error "Port 3306 already in use"
+✅ Matikan XAMPP/MySQL lain yang running
+✅ Atau restart komputer
+
+❌ Error "Connection refused"
+✅ Tunggu 30 detik lagi setelah setup database
+✅ Restart aplikasi
+
+❌ Aplikasi loading terus
+✅ Pastikan Docker Desktop running
+✅ Check container dengan: docker ps
+
+❌ Login gagal
+✅ Pastikan database sudah setup
+✅ Coba username: admin, password: 123
+
+FITUR APLIKASI:
+===============
+
+📊 ADMIN (username: admin)
+- Kelola semua akun pengguna
+- Tambah/edit/hapus menu makanan
+- Entry transaksi pembayaran
+- Generate laporan lengkap
+
+👨‍💼 KASIR (username: hendro, fitri, yafi, fiaz)
+- Entry order pelanggan
+- Proses pembayaran
+- Generate laporan
+
+👔 OWNER (username: lia)
+- Lihat laporan penjualan
+- Monitor performa bisnis
+
+SUPPORT:
+========
+Jika masih ada masalah:
+- GitHub: https://github.com/zakkutsu/cashier_app
+- Baca README.md untuk detail lengkap
+
+Terima kasih telah menggunakan POS Seblak! 🍜

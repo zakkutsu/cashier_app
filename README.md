@@ -6,7 +6,66 @@ Aplikasi Point of Sale (POS) untuk restoran seblak yang dibuat menggunakan Elect
 - **Frontend**: Electron (desktop app)
 - **Backend**5. Test connection dan save
 
-## 📋 Tutorial Step-by-Step (Untuk Pemula)
+## 📋 Tutorial# Kompres dengan 7-Zip atau WinRAR untuk distribusi
+7z a "POS-Seblak-v1.0.7z" "dist/POS Seblak-win32-ia32"
+```
+
+## 🚀 Distribusi Aplikasi
+
+### Opsi 1: Portable Application
+1. Build aplikasi dengan script: `.\build.ps1`
+2. Zip folder hasil build: `dist/POS Seblak-win32-ia32/`
+3. Bagikan file .zip
+4. User tinggal extract dan jalankan `setup-database.bat`
+
+### Opsi 2: Dengan Installer
+```powershell
+# Install electron-builder
+npm install --save-dev electron-builder
+
+# Build installer
+npm run dist
+```
+
+### Opsi 3: Cloud Distribution
+Upload ke cloud storage dan bagikan link:
+- **Google Drive**: Untuk file besar (>25MB)
+- **GitHub Releases**: Untuk versi official
+- **Dropbox/OneDrive**: Untuk sharing cepat
+
+### 📋 Checklist Distribusi
+- ✅ Test aplikasi di komputer lain
+- ✅ Pastikan database script berfungsi
+- ✅ Sertakan file README.txt
+- ✅ Test semua fitur utama
+- ✅ Ukuran file wajar (<500MB)
+- ✅ Icon aplikasi terlihat
+- ✅ Nama aplikasi sesuai
+
+### 🔧 Tips untuk User End
+Buat file `CARA-INSTALL.txt` untuk user:
+```
+CARA INSTALL POS SEBLAK
+
+1. Extract file zip ke folder (contoh: C:\POS-Seblak\)
+2. Install Docker Desktop dari https://www.docker.com/
+3. Jalankan setup-database.bat
+4. Tunggu sampai muncul "Setup Complete"
+5. Klik "POS Seblak.exe" untuk memulai
+6. Login dengan: admin / 123
+
+TROUBLESHOOTING:
+- Jika error Docker: Install Docker Desktop dulu
+- Jika error port 3306: Matikan MySQL/XAMPP yang lain
+- Jika tidak bisa login: Tunggu 30 detik setelah setup database
+
+CONTACT:
+GitHub: https://github.com/zakkutsu/cashier_app
+```
+
+## 📊 Database Schema
+
+Aplikasi menggunakan database `db_restoran` dengan tabel:y-Step (Untuk Pemula)
 
 ### Langkah 1: Persiapan
 1. Pastikan Docker Desktop sudah terinstall dan berjalan
@@ -61,7 +120,221 @@ Untuk yang ingin langsung jalankan, copy-paste command ini:
 docker run --name mysql-seblak -e MYSQL_ROOT_PASSWORD=mysql -e MYSQL_DATABASE=db_restoran -p 3306:3306 -d mysql:5.7; Start-Sleep 15; Get-Content web/database/db_restoran.sql | docker exec -i mysql-seblak mysql -u root -pmysql db_restoran; npm start
 ```
 
-## 📊 Database SchemaHP dengan server built-in
+## � Tutorial Build Aplikasi menjadi .EXE
+
+### Persiapan Build
+Sebelum membuild, pastikan aplikasi berjalan dengan baik di mode development.
+
+### 1. Build untuk Windows (Recommended)
+```powershell
+# Build untuk Windows 32-bit (lebih kompatibel)
+npm run package-win
+
+# Atau gunakan perintah manual untuk lebih banyak kontrol
+npx electron-packager . "POS Seblak" --platform=win32 --arch=ia32 --out=dist --overwrite --icon=icons/logo.ico
+```
+
+### 2. Build untuk Sistem Lain
+```powershell
+# Build untuk Windows 64-bit
+npx electron-packager . "POS Seblak" --platform=win32 --arch=x64 --out=dist --overwrite --icon=icons/logo.ico
+
+# Build untuk macOS
+npm run package-mac
+
+# Build untuk Linux
+npm run package-linux
+```
+
+### 3. Build dengan Konfigurasi Custom
+```powershell
+# Build dengan nama dan konfigurasi khusus
+npx electron-packager . "Kasir Seblak v1.0" `
+  --platform=win32 `
+  --arch=ia32 `
+  --out=release `
+  --overwrite `
+  --icon=icons/logo.ico `
+  --app-version="1.0.0" `
+  --build-version="1.0.0" `
+  --version-string.CompanyName="Seblak Corp" `
+  --version-string.FileDescription="Aplikasi Kasir Seblak" `
+  --version-string.ProductName="POS Seblak" `
+  --ignore="node_modules/(electron-prebuilt|electron-packager)" `
+  --prune=true
+```
+
+### 4. Optimasi Sebelum Build
+
+#### Bersihkan Dependencies
+```powershell
+# Install dependencies production only
+npm ci --production
+
+# Atau hapus dev dependencies
+npm prune --production
+```
+
+#### Update package.json untuk build
+```json
+{
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build-win32": "electron-packager . --platform=win32 --arch=ia32 --out=dist/",
+    "build-win64": "electron-packager . --platform=win32 --arch=x64 --out=dist/",
+    "build-all": "electron-packager . --all --out=dist/"
+  }
+}
+```
+
+### 5. Troubleshooting Build
+
+#### Error: electron-packager not found
+```powershell
+# Install electron-packager global
+npm install -g electron-packager
+
+# Atau install local
+npm install --save-dev electron-packager
+```
+
+#### Error: Icon tidak ditemukan
+```powershell
+# Pastikan file icon ada dan format benar
+# Windows: .ico
+# macOS: .icns  
+# Linux: .png
+
+# Convert icon jika perlu
+# https://convertio.co/png-ico/
+```
+
+#### Error: Build gagal karena size
+```powershell
+# Hapus file tidak perlu sebelum build
+Remove-Item node_modules/.cache -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item .git -Recurse -Force -ErrorAction SilentlyContinue
+
+# Atau tambahkan ignore list
+--ignore="node_modules/.cache" --ignore=".git"
+```
+
+### 6. Hasil Build
+
+Setelah build berhasil, Anda akan mendapat:
+```
+dist/
+├── POS Seblak-win32-ia32/
+│   ├── POS Seblak.exe          ← File executable utama
+│   ├── resources/
+│   │   └── app.asar            ← Kode aplikasi terbungkus
+│   ├── php/                    ← PHP runtime
+│   ├── web/                    ← File web aplikasi
+│   └── ... (file Electron lainnya)
+```
+
+### 7. Distribusi Aplikasi
+
+#### Buat Installer (Optional)
+```powershell
+# Install electron-builder untuk installer
+npm install --save-dev electron-builder
+
+# Tambah script di package.json
+"build": "electron-builder",
+"dist": "npm run build"
+```
+
+#### Konfigurasi electron-builder
+Buat file `electron-builder.json`:
+```json
+{
+  "appId": "com.seblak.pos",
+  "productName": "POS Seblak",
+  "directories": {
+    "output": "installer"
+  },
+  "files": [
+    "**/*",
+    "!dist",
+    "!installer"
+  ],
+  "win": {
+    "target": "nsis",
+    "icon": "icons/logo.ico"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true
+  }
+}
+```
+
+#### Testing Aplikasi .exe
+1. **Copy folder database** - Pastikan MySQL tetap running di host
+2. **Test di komputer lain** - Pastikan aplikasi berjalan tanpa dependencies
+3. **Check koneksi database** - Update config jika perlu
+
+### 8. Tips untuk Distribusi
+
+#### Portable Version
+```powershell
+# Tambahkan file portable.txt di folder aplikasi
+echo "portable" > "dist/POS Seblak-win32-ia32/portable.txt"
+
+# Copy database setup script
+Copy-Item "setup-database.bat" "dist/POS Seblak-win32-ia32/"
+```
+
+#### Database Bundling
+Untuk distribusi yang mudah, buat script setup database:
+```batch
+@echo off
+echo Setting up POS Seblak Database...
+docker run --name mysql-seblak -e MYSQL_ROOT_PASSWORD=mysql -e MYSQL_DATABASE=db_restoran -p 3306:3306 -d mysql:5.7
+timeout /t 15
+echo Database ready!
+echo Starting POS Seblak...
+"POS Seblak.exe"
+```
+
+### � File Pendukung yang Disertakan
+
+#### Script Build Otomatis
+- `build.ps1` - Script PowerShell untuk build otomatis
+- `setup-database.bat` - Setup database untuk distribusi (Windows Batch)
+- `setup-database.ps1` - Setup database untuk distribusi (PowerShell)
+
+#### Penggunaan Script Build
+```powershell
+# Build default (Windows 32-bit)
+.\build.ps1
+
+# Build Windows 64-bit
+.\build.ps1 -Architecture "x64"
+
+# Build ke direktori khusus
+.\build.ps1 -OutputDir "release"
+```
+
+### �📊 Size Optimization
+
+File .exe akan berukuran sekitar:
+- **Minimal build**: ~150-200 MB
+- **Dengan PHP runtime**: ~200-250 MB  
+- **Full build dengan dependencies**: ~300-400 MB
+
+Untuk mengurangi ukuran:
+```powershell
+# Hapus file PHP yang tidak perlu
+Remove-Item php/ext/php_oci8_12c.dll, php/ext/php_pdo_oci.dll -ErrorAction SilentlyContinue
+
+# Kompres dengan 7-Zip atau WinRAR untuk distribusi
+7z a "POS-Seblak-v1.0.7z" "dist/POS Seblak-win32-ia32"
+```
+
+## �📊 Database SchemaHP dengan server built-in
 - **Database**: MySQL/MariaDB
 - **Nama Aplikasi**: POS Seblak V-1
 
