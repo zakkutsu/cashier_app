@@ -38,6 +38,7 @@ if(isset ($_SESSION['username'])){
 <link rel="stylesheet" href="./template/dashboard/css/matrix-media.css" />
 <link href="template/dashboard/font-awesome/css/font-awesome.css" rel="stylesheet" />
 <link rel="stylesheet" href="./template/dashboard/css/jquery.gritter.css" />
+<link rel="stylesheet" href="./css/menu-grid.css" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -228,93 +229,97 @@ if(isset ($_SESSION['username'])){
             <h5>Menu Makanan</h5>
           </div>
           <div class="widget-content" >
-            <ul class="thumbnails">
-              <div class="btn-icon-pg">
-                <ul>
-                  <!--Looping-->
-                  <?php
-                    $pesan = array();
+            <div class="menu-grid">
+              <!--Looping Menu Cards-->
+              <?php
+                $pesan = array();
 
-                    $query_lihat_pesan = "select * from tb_pesan where id_user = $id and status_pesan != 'sudah'";
-                    $sql_lihat_pesan = mysqli_query($conn, $query_lihat_pesan);
+                $query_lihat_pesan = "select * from tb_pesan where id_user = $id and status_pesan != 'sudah'";
+                $sql_lihat_pesan = mysqli_query($conn, $query_lihat_pesan);
 
-                    while($r_dt_pesan = mysqli_fetch_array($sql_lihat_pesan)){
-                      array_push($pesan, $r_dt_pesan['id_masakan']);
-                    }
+                while($r_dt_pesan = mysqli_fetch_array($sql_lihat_pesan)){
+                  array_push($pesan, $r_dt_pesan['id_masakan']);
+                }
 
-                    $query_data_makanan = "select * from tb_masakan where stok > 0 order by id_masakan desc";
-                    $sql_data_makanan = mysqli_query($conn, $query_data_makanan);
-                    $no_makanan = 1;
+                $query_data_makanan = "select * from tb_masakan where stok > 0 order by id_masakan desc";
+                $sql_data_makanan = mysqli_query($conn, $query_data_makanan);
+                $no_makanan = 1;
 
-                    while($r_dt_makanan = mysqli_fetch_array($sql_data_makanan)){
-                  ?>
-                      <li class="span2"> 
-                        <a> <img src="gambar/<?php echo $r_dt_makanan['gambar_masakan']?>" alt="" > </a>
-                        <div class="actions">
-                          <a class="lightbox_trigger" href="gambar/<?php echo $r_dt_makanan['gambar_masakan'];?>"><i class="icon-search"></i>&nbsp;Lihat</a> 
-                        </div>
-                        <table class="table table-bordered">
-                          <tbody>
-                            <tr>
-                              <td><?php echo $r_dt_makanan['nama_masakan'];?></td>
-                            </tr>
-                            <tr>
-                              <td>Harga / Porsi</td>
-                              <td>Rp. <?php echo $r_dt_makanan['harga'];?>,-</td>
-                            </tr>
-                            <tr>
-                              <td>Stok</td>
-                              <td><?php echo $r_dt_makanan['stok'];?> Porsi</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <form action="entri_order.php" method="post">
-                          <?php
-                        
-                            if(in_array($r_dt_makanan['id_masakan'], $pesan)){
-                          ?>
-                              <button type="submit" value="<?php echo $r_dt_makanan['id_masakan'];?>" name="tambah_pesan" class="btn btn-danger btn-mini" disabled>
-                                <i class='icon-shopping-cart'></i>&nbsp;&nbsp;Telah dipesan &nbsp;&nbsp;
-                              </button>
-                          <?php
-                            } else {
-                          ?>
-                              <button type="submit" value="<?php echo $r_dt_makanan['id_masakan'];?>" name="tambah_pesan" class="btn btn-success btn-mini">
-                                <i class='icon-shopping-cart'></i>&nbsp;&nbsp;Pesan &nbsp;&nbsp;
-                              </button>
-                          <?php
-                            }
-                          ?>
-                        </form>
-                      </li>
-                    <?php
-                      }
-                      if(isset($_REQUEST['tambah_pesan'])){
-                        //echo $_REQUEST['hapus_menu'];
-                        $id_masakan = $_REQUEST['tambah_pesan'];
-
-                        $query_tambah_pesan = "insert into tb_pesan values(0, '$id', 0, '$id_masakan', 1, '')";
-                        $sql_tambah_pesan= mysqli_query($conn, $query_tambah_pesan);
-
-                        $query_lihat_pesannya = "select * from tb_pesan order by id_pesan desc limit 1";
-                        $sql_lihat_pesannya = mysqli_query($conn, $query_lihat_pesannya);
-                        $result_lihat_pesannya = mysqli_fetch_array($sql_lihat_pesannya);
-
-                        $id_pesannya = $result_lihat_pesannya['id_pesan'];
-
-                        $query_olah_stok = "insert into tb_stok values(0, '$id_pesannya', '', 'belum cetak')";
-                        $sql_olah_stok= mysqli_query($conn, $query_olah_stok);
-
-                        //echo $query_tambah_pesan;
-                        if($sql_tambah_pesan){
-                          header('location: entri_order.php');
+                while($r_dt_makanan = mysqli_fetch_array($sql_data_makanan)){
+              ?>
+                <div class="menu-card">
+                  <div class="image-preview">
+                    <img src="gambar/<?php echo $r_dt_makanan['gambar_masakan']?>" alt="<?php echo $r_dt_makanan['nama_masakan'];?>" class="menu-card-image">
+                    <div class="image-overlay">
+                      <a class="lightbox_trigger" href="gambar/<?php echo $r_dt_makanan['gambar_masakan'];?>">
+                        <i class="icon-search"></i>&nbsp;Lihat Detail
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <div class="menu-card-content">
+                    <div class="menu-card-title"><?php echo $r_dt_makanan['nama_masakan'];?></div>
+                    
+                    <div class="menu-card-info">
+                      <table>
+                        <tr>
+                          <td>Harga / Porsi</td>
+                          <td class="menu-card-price">Rp. <?php echo number_format($r_dt_makanan['harga']);?>,-</td>
+                        </tr>
+                        <tr>
+                          <td>Stok Tersedia</td>
+                          <td class="menu-card-stock"><?php echo $r_dt_makanan['stok'];?> Porsi</td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                  
+                  <div class="menu-card-actions">
+                    <form action="entri_order.php" method="post">
+                      <?php
+                        if(in_array($r_dt_makanan['id_masakan'], $pesan)){
+                      ?>
+                        <button type="submit" value="<?php echo $r_dt_makanan['id_masakan'];?>" name="tambah_pesan" class="menu-card-button btn-ordered" disabled>
+                          <i class='icon-shopping-cart'></i>&nbsp;&nbsp;Telah Dipesan
+                        </button>
+                      <?php
+                        } else {
+                      ?>
+                        <button type="submit" value="<?php echo $r_dt_makanan['id_masakan'];?>" name="tambah_pesan" class="menu-card-button btn-order">
+                          <i class='icon-shopping-cart'></i>&nbsp;&nbsp;Pesan Sekarang
+                        </button>
+                      <?php
                         }
-                      }
-                    ?>
-                  <!--End Looping-->
-                </ul>
-              </div>
-            </ul>
+                      ?>
+                    </form>
+                  </div>
+                </div>
+              <?php
+                }
+                if(isset($_REQUEST['tambah_pesan'])){
+                  //echo $_REQUEST['hapus_menu'];
+                  $id_masakan = $_REQUEST['tambah_pesan'];
+
+                  $query_tambah_pesan = "insert into tb_pesan values(0, '$id', 0, '$id_masakan', 1, '')";
+                  $sql_tambah_pesan= mysqli_query($conn, $query_tambah_pesan);
+
+                  $query_lihat_pesannya = "select * from tb_pesan order by id_pesan desc limit 1";
+                  $sql_lihat_pesannya = mysqli_query($conn, $query_lihat_pesannya);
+                  $result_lihat_pesannya = mysqli_fetch_array($sql_lihat_pesannya);
+
+                  $id_pesannya = $result_lihat_pesannya['id_pesan'];
+
+                  $query_olah_stok = "insert into tb_stok values(0, '$id_pesannya', '', 'belum cetak')";
+                  $sql_olah_stok= mysqli_query($conn, $query_olah_stok);
+
+                  //echo $query_tambah_pesan;
+                  if($sql_tambah_pesan){
+                    header('location: entri_order.php');
+                  }
+                }
+              ?>
+              <!--End Looping Menu Cards-->
+            </div>
           </div>
         </div>
       </div>

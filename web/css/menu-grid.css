@@ -1,0 +1,196 @@
+/* Custom CSS untuk Grid Card Menu */
+.menu-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.menu-card {
+    flex: 0 0 calc(25% - 15px);
+    min-width: 250px;
+    max-width: 300px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.menu-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+}
+
+.menu-card-content {
+    padding: 15px;
+}
+
+.menu-card-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+}
+
+.menu-card-info {
+    background: #f8f8f8;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.menu-card-info table {
+    width: 100%;
+    margin: 0;
+}
+
+.menu-card-info td {
+    padding: 5px;
+    border: none;
+    font-size: 13px;
+}
+
+.menu-card-info td:first-child {
+    font-weight: bold;
+    color: #666;
+}
+
+.menu-card-price {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.menu-card-stock {
+    color: #3498db;
+}
+
+.menu-card-actions {
+    text-align: center;
+    padding: 0 15px 15px;
+}
+
+.menu-card-button {
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-order {
+    background: #27ae60;
+    color: white;
+    border: 2px solid #27ae60;
+}
+
+.btn-order:hover {
+    background: #219a52;
+    border-color: #219a52;
+    color: white;
+}
+
+.btn-ordered {
+    background: #e74c3c;
+    color: white;
+    border: 2px solid #e74c3c;
+}
+
+.btn-ordered:hover {
+    background: #c0392b;
+    border-color: #c0392b;
+    color: white;
+}
+
+.btn-edit {
+    background: #3498db;
+    color: white;
+    border: 2px solid #3498db;
+}
+
+.btn-edit:hover {
+    background: #2980b9;
+    border-color: #2980b9;
+    color: white;
+}
+
+.btn-disabled {
+    background: #95a5a6;
+    color: white;
+    border: 2px solid #95a5a6;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.image-preview {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+}
+
+.image-preview:hover .image-overlay {
+    opacity: 1;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.image-overlay a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 5px;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .menu-card {
+        flex: 0 0 calc(33.333% - 15px);
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-card {
+        flex: 0 0 calc(50% - 15px);
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-card {
+        flex: 0 0 100%;
+        min-width: auto;
+    }
+    
+    .menu-grid {
+        gap: 15px;
+        padding: 15px 0;
+    }
+}

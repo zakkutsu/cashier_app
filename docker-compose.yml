@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-seblak
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: db_restoran
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./web/database/db_restoran.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - seblak-network
+
+networks:
+  seblak-network:
+    driver: bridge
+
+volumes:
+  mysql_data:

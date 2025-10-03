@@ -1,17 +1,16 @@
 <?php
 	$host = "localhost";
 	$user = "root";
-	$pass = "";
+	$pass = "mysql";
 	
 	$db = "db_restoran";
 	$conn = mysqli_connect($host,$user,$pass,$db);
-	mysqli_select_db ($conn, $db);
 	
 	if (!$conn) {
-   		die('Maaf koneksi gagal: '. $connect->connect_error);
+   		die('Maaf koneksi gagal: '. mysqli_connect_error());
 	}
 	else{
-		//echo 'Tahu';
-		//echo $_SESSION['viewnya'];
+		// Koneksi berhasil
+		mysqli_select_db($conn, $db);
 	}	
 ?>

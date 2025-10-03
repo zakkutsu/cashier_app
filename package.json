@@ -1,5 +1,5 @@
 {
-  "name": "kasir_seblak",
+  "name": "cashier_app",
   "version": "1.0.0",
   "description": "An easiest way to use php in electron",
   "main": "main.js",

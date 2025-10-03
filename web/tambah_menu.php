@@ -86,9 +86,10 @@ if(isset ($_SESSION['username'])){
   <ul>
     <li><a href="beranda.php"><i class="icon icon-home"></i> <span>Beranda</span></a> </li>
     <li class="active"> <a href="entri_referensi.php"><i class="icon icon-tasks"></i> <span>Entri Referensi</span></a> </li>
-    <li> <a href="widgets.html"><i class="icon icon-shopping-cart"></i> <span>Entri Order</span></a> </li>
-    <li> <a href="widgets.html"><i class="icon icon-inbox"></i> <span>Entri Transaksi</span></a> </li>
-    <li> <a href="widgets.html"><i class="icon icon-print"></i> <span>Generate Laporan</span></a> </li>
+    <li> <a href="entri_order.php"><i class="icon icon-shopping-cart"></i> <span>Entri Order</span></a> </li>
+    <li> <a href="entri_transaksi.php"><i class="icon icon-inbox"></i> <span>Entri Transaksi</span></a> </li>
+    <li> <a href="generate_laporan.php"><i class="icon icon-print"></i> <span>Generate Laporan</span></a> </li>
+    <li> <a href="logout.php"><i class="icon icon-sign-out"></i> <span>Logout</span></a> </li>
   </ul>
 </div>
 <!--sidebar-menu-->

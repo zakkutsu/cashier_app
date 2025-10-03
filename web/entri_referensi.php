@@ -38,6 +38,7 @@ if(isset ($_SESSION['username'])){
 <link rel="stylesheet" href="./template/dashboard/css/matrix-media.css" />
 <link href="template/dashboard/font-awesome/css/font-awesome.css" rel="stylesheet" />
 <link rel="stylesheet" href="./template/dashboard/css/jquery.gritter.css" />
+<link rel="stylesheet" href="./css/menu-grid.css" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -133,74 +134,91 @@ if(isset ($_SESSION['username'])){
         </div>
         <h4 style="text-align: center;">Pilihan Seblak</h4>
         <div class="widget-content" >
-          <ul class="thumbnails">
-            <div class="btn-icon-pg">
-              <ul>
-                <!--Looping-->
-                <?php
-                  $query_data_makanan = "select * from tb_masakan order by id_masakan desc";
-                  $sql_data_makanan = mysqli_query($conn, $query_data_makanan);
-                  $no_makanan = 1;
+          <div class="menu-grid">
+            <!--Looping Menu Cards-->
+            <?php
+              $query_data_makanan = "select * from tb_masakan order by id_masakan desc";
+              $sql_data_makanan = mysqli_query($conn, $query_data_makanan);
+              $no_makanan = 1;
 
-                  while($r_dt_makanan = mysqli_fetch_array($sql_data_makanan)){
-                ?>
-                    <li class="span2"> 
-                      <a> <img src="gambar/<?php echo $r_dt_makanan['gambar_masakan']?>" alt="" > </a>
-                      <div class="actions">
-                        <a class="lightbox_trigger" href="gambar/<?php echo $r_dt_makanan['gambar_masakan'];?>"><i class="icon-search"></i>&nbsp;Lihat</a> 
-                      </div>
-                      <table class="table table-bordered">
-                        <tbody>
-                          <tr>
-                            <td><?php echo $r_dt_makanan['nama_masakan'];?></td>
-                          </tr>
-                          <tr>
-                            <td>Harga / Porsi</td>
-                            <td>Rp. <?php echo $r_dt_makanan['harga'];?>,-</td>
-                          </tr>
-                          <tr>
-                            <td>Stok</td>
-                            <td><?php echo $r_dt_makanan['stok'];?> Porsi</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <form action="" method="post">
-                        <button type="submit" value="<?php echo $r_dt_makanan['id_masakan'];?>" name="edit_menu" class="btn btn-success btn-mini"><i class='icon-pencil'></i>&nbsp;&nbsp;Edit &nbsp;&nbsp;</button>
-                        <button type="submit" value="<?php echo $r_dt_makanan['id_masakan'];?>" name="hapus_menu" class="btn btn-mini btn-danger"><i class='icon icon-trash'></i>&nbsp; Hapus</button>
-                      </form>
-                    </li>
-                    <?php
-                    }
-                    if(isset($_REQUEST['hapus_menu'])){
-                      //echo $_REQUEST['hapus_menu'];
-                      $id_masakan = $_REQUEST['hapus_menu'];
-                      
-                      $query_lihat = "select * from tb_masakan where id_masakan = $id_masakan";
-                      $sql_lihat = mysqli_query($conn, $query_lihat);
-                      $result_lihat = mysqli_fetch_array($sql_lihat);
-                      if(file_exists('gambar/'.$result_lihat['gambar_masakan'])){
-                        //echo $result_lihat['gambar_masakan'];
-                        unlink('gambar/'.$result_lihat['gambar_masakan']);
-                      }
-                      $query_hapus_masakan = "delete from tb_masakan where id_masakan = $id_masakan";
-                      $sql_hapus_masakan= mysqli_query($conn, $query_hapus_masakan);
-                      if($sql_hapus_masakan){
-                        header('location: entri_referensi.php');
-                      }
-                    }
-                    
-                    if(isset($_REQUEST['edit_menu'])){
-                      //echo $_REQUEST['hapus_menu'];
-                      $id_masakan = $_REQUEST['edit_menu'];
-                      $_SESSION['edit_menu'] = $id_masakan;
-                      
-                      header('location: tambah_menu.php');
-                    }
-                    ?>
-                <!--End Looping-->
-              </ul>
-            </div>
-          </ul>
+              while($r_dt_makanan = mysqli_fetch_array($sql_data_makanan)){
+            ?>
+              <div class="menu-card">
+                <div class="image-preview">
+                  <img src="gambar/<?php echo $r_dt_makanan['gambar_masakan']?>" alt="<?php echo $r_dt_makanan['nama_masakan'];?>" class="menu-card-image">
+                  <div class="image-overlay">
+                    <a class="lightbox_trigger" href="gambar/<?php echo $r_dt_makanan['gambar_masakan'];?>">
+                      <i class="icon-search"></i>&nbsp;Lihat Detail
+                    </a>
+                  </div>
+                </div>
+                
+                <div class="menu-card-content">
+                  <div class="menu-card-title"><?php echo $r_dt_makanan['nama_masakan'];?></div>
+                  
+                  <div class="menu-card-info">
+                    <table>
+                      <tr>
+                        <td>Harga / Porsi</td>
+                        <td class="menu-card-price">Rp. <?php echo number_format($r_dt_makanan['harga']);?>,-</td>
+                      </tr>
+                      <tr>
+                        <td>Stok Tersedia</td>
+                        <td class="menu-card-stock"><?php echo $r_dt_makanan['stok'];?> Porsi</td>
+                      </tr>
+                      <tr>
+                        <td>Status</td>
+                        <td>
+                          <span class="label <?php echo $r_dt_makanan['status_masakan'] == 'tersedia' ? 'label-success' : 'label-important'; ?>">
+                            <?php echo ucfirst($r_dt_makanan['status_masakan']);?>
+                          </span>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                
+                <div class="menu-card-actions">
+                  <form action="" method="post" style="display: inline-block; width: 100%;">
+                    <button type="submit" value="<?php echo $r_dt_makanan['id_masakan'];?>" name="edit_menu" class="menu-card-button btn-order" style="width: 48%; margin-right: 2%;">
+                      <i class='icon-pencil'></i>&nbsp;Edit
+                    </button>
+                    <button type="submit" value="<?php echo $r_dt_makanan['id_masakan'];?>" name="hapus_menu" class="menu-card-button btn-ordered" style="width: 48%;">
+                      <i class='icon icon-trash'></i>&nbsp;Hapus
+                    </button>
+                  </form>
+                </div>
+              </div>
+            <?php
+              }
+              if(isset($_REQUEST['hapus_menu'])){
+                //echo $_REQUEST['hapus_menu'];
+                $id_masakan = $_REQUEST['hapus_menu'];
+                
+                $query_lihat = "select * from tb_masakan where id_masakan = $id_masakan";
+                $sql_lihat = mysqli_query($conn, $query_lihat);
+                $result_lihat = mysqli_fetch_array($sql_lihat);
+                if(file_exists('gambar/'.$result_lihat['gambar_masakan'])){
+                  //echo $result_lihat['gambar_masakan'];
+                  unlink('gambar/'.$result_lihat['gambar_masakan']);
+                }
+                $query_hapus_masakan = "delete from tb_masakan where id_masakan = $id_masakan";
+                $sql_hapus_masakan= mysqli_query($conn, $query_hapus_masakan);
+                if($sql_hapus_masakan){
+                  header('location: entri_referensi.php');
+                }
+              }
+              
+              if(isset($_REQUEST['edit_menu'])){
+                //echo $_REQUEST['hapus_menu'];
+                $id_masakan = $_REQUEST['edit_menu'];
+                $_SESSION['edit_menu'] = $id_masakan;
+                
+                header('location: tambah_menu.php');
+              }
+            ?>
+            <!--End Looping Menu Cards-->
+          </div>
         </div>
       </div>
       <?php
